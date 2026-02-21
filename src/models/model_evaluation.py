@@ -11,12 +11,12 @@ import json
 
 # initialize dagshub
 import dagshub
-dagshub.init(repo_owner='himanshu1703', 
-             repo_name='swiggy-delivery-time-prediction', 
+dagshub.init(repo_owner='quamrl-hoda', 
+             repo_name='swiggy-delivery-time-prediction-system', 
              mlflow=True)
 
 # set the mlflow tracking server
-mlflow.set_tracking_uri("https://dagshub.com/himanshu1703/swiggy-delivery-time-prediction.mlflow")
+mlflow.set_tracking_uri("https://dagshub.com/quamrl-hoda/swiggy-delivery-time-prediction-system.mlflow")
 
 # set mlflow experment name
 mlflow.set_experiment("DVC Pipeline")

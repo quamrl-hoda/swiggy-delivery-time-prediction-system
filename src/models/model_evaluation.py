@@ -2,6 +2,8 @@ import pandas as pd
 import joblib
 import logging
 import mlflow
+import mlflow.data
+
 import dagshub
 from pathlib import Path
 from sklearn.model_selection import cross_val_score
@@ -149,6 +151,16 @@ if __name__ == "__main__":
         # log input
         mlflow.log_input(dataset=train_data_input,context="training")
         mlflow.log_input(dataset=test_data_input,context="validation")
+        # from mlflow.data.pandas_dataset import from_pandas
+
+        # # mlflow dataset input datatype
+        # train_data_input = from_pandas(train_data, targets=TARGET)
+        # test_data_input = from_pandas(test_data, targets=TARGET)
+
+        # # log input datasets
+        # mlflow.log_input(dataset=train_data_input, context="training")
+        # mlflow.log_input(dataset=test_data_input, context="validation")
+
         
         # model signature
         model_signature = mlflow.models.infer_signature(model_input=X_train.sample(20,random_state=42),

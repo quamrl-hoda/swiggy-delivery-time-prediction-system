@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from sklearn.pipeline import Pipeline
 import uvicorn
@@ -113,10 +115,21 @@ model_pipe = Pipeline(steps=[
 # create the app
 app = FastAPI()
 
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Templates setup
+templates = Jinja2Templates(directory="templates")
+
+
 # create the home endpoint
 @app.get(path="/")
-def home():
-    return "Welcome to the Swiggy Food Delivery Time Prediction App"
+def home(request: Request):
+    return templates.TemplateResponse("home.html", {
+        "request": request,
+        "model_name": model_name,
+        "stage": stage
+    })
 
 # create the predict endpoint
 @app.post(path="/predict")

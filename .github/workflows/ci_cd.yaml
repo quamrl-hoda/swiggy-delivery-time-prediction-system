@@ -22,11 +22,10 @@ jobs:
 
       - name: DVC Pull
         env:
-          DAGSHUB_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
           DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
           AWS_DEFAULT_REGION: us-east-1
         run: |
-          dvc remote modify dagshub --local access_key_id "${DAGSHUB_USERNAME}"
+          dvc remote modify dagshub --local access_key_id "${DAGSHUB_TOKEN}"
           dvc remote modify dagshub --local secret_access_key "${DAGSHUB_TOKEN}"
           dvc pull -r dagshub
 

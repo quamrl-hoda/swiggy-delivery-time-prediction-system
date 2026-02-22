@@ -6,9 +6,13 @@ from mlflow import MlflowClient
 import os
 from dagshub.auth import add_app_token
 
-token = os.getenv("DAGSHUB_USER_TOKEN")
+# Try to get token from multiple common environment variables
+token = os.getenv("DAGSHUB_TOKEN") or os.getenv("DAGSHUB_USER_TOKEN")
+
 if token:
     add_app_token(token)
+else:
+    print("WARNING: DagsHub token not found in environment variables.")
 
 dagshub.init(repo_owner='quamrl-hoda', 
              repo_name='swiggy-delivery-time-prediction-system', 

@@ -4,9 +4,14 @@ from mlflow import MlflowClient
 import dagshub
 import json
 
+import os
+
+token = os.getenv("DAGSHUB_USER_TOKEN")
+
 dagshub.init(repo_owner='quamrl-hoda', 
              repo_name='swiggy-delivery-time-prediction-system', 
-             mlflow=True)
+             mlflow=True,
+             token=token)
 
 # set the mlflow tracking server
 mlflow.set_tracking_uri("https://dagshub.com/quamrl-hoda/swiggy-delivery-time-prediction-system.mlflow")

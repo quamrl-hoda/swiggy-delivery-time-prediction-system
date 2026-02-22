@@ -26,7 +26,9 @@ jobs:
           DAGSHUB_SECRET_ACCESS_KEY: ${{ secrets.DAGSHUB_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: us-east-1
         run: |
-          dvc pull
+          dvc remote modify dagshub --local access_key_id $DAGSHUB_ACCESS_KEY_ID
+          dvc remote modify dagshub --local secret_access_key $DAGSHUB_SECRET_ACCESS_KEY
+          dvc pull -r dagshub
 
       - name: Test Model Registry
         env:

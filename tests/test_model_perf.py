@@ -9,13 +9,15 @@ import pandas as pd
 from sklearn.metrics import mean_absolute_error
 
 import os
+from dagshub.auth import add_app_token
 
 token = os.getenv("DAGSHUB_USER_TOKEN")
+if token:
+    add_app_token(token)
 
 dagshub.init(repo_owner='quamrl-hoda', 
              repo_name='swiggy-delivery-time-prediction-system', 
-             mlflow=True,
-             token=token)
+             mlflow=True)
 
 # set the mlflow tracking server
 mlflow.set_tracking_uri("https://dagshub.com/quamrl-hoda/swiggy-delivery-time-prediction-system.mlflow")

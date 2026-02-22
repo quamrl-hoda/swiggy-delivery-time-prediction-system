@@ -1,5 +1,6 @@
 [core]
     remote = dagshub
-[remote "dagshub"]
+['remote "dagshub"']
     url = s3://dvc
     endpointurl = https://dagshub.com/quamrl-hoda/swiggy-delivery-time-prediction-system.s3
+    jobs = 1

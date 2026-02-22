@@ -22,8 +22,9 @@ jobs:
 
       - name: DVC Pull
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.DAGSHUB_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.DAGSHUB_SECRET_ACCESS_KEY }}
+          DAGSHUB_ACCESS_KEY_ID: ${{ secrets.DAGSHUB_ACCESS_KEY_ID }}
+          DAGSHUB_SECRET_ACCESS_KEY: ${{ secrets.DAGSHUB_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: us-east-1
         run: |
           dvc pull
 

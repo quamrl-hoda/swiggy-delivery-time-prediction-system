@@ -8,3 +8,4 @@ dvc-s3
 python-dotenv
 lightgbm
 dagshub
+pytest

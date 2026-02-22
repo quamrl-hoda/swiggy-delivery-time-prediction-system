@@ -3,6 +3,8 @@ import joblib
 import logging
 import mlflow
 import mlflow.data
+import mlflow.sklearn
+
 
 import dagshub
 from pathlib import Path
@@ -167,16 +169,36 @@ if __name__ == "__main__":
                                     model_output=model.predict(X_train.sample(20,random_state=42)))
         
         # log the final model
-        mlflow.sklearn.log_model(model,"delivery_time_pred_model",signature=model_signature)
+        logger.info("Starting model logging to MLflow...")
+        try:
+            import shutil
+            import os
+            model_save_path = root_path / "models" / "mlflow_model"
+            if os.path.exists(model_save_path):
+                shutil.rmtree(model_save_path)
+            
+            # Save model locally in MLflow format
+            mlflow.sklearn.save_model(sk_model=model, path=model_save_path, signature=model_signature)
+            
+            # Log the directory as an artifact
+            mlflow.log_artifacts(model_save_path, artifact_path="model")
+            logger.info("Model logged successfully to MLflow as 'model' artifact folder")
+            
+            # Clean up local temp folder
+            shutil.rmtree(model_save_path)
+        except Exception as e:
+            logger.error(f"Failed to log model to MLflow: {str(e)}")
+            raise e
 
-        # log stacking regressor
+        # log other artifacts
         mlflow.log_artifact(root_path / "models" / "stacking_regressor.joblib")
-        
-        # log the power transformer
         mlflow.log_artifact(root_path / "models" / "power_transformer.joblib")
-        
-        # log the preprocessor
         mlflow.log_artifact(root_path / "models" / "preprocessor.joblib")
+        
+        # Verify internally
+        client = mlflow.tracking.MlflowClient()
+        artifacts = client.list_artifacts(run.info.run_id)
+        logger.info(f"Verified artifacts in run: {[a.path for a in artifacts]}")
         
         # get the current run artifact uri
         artifact_uri = mlflow.get_artifact_uri()
@@ -192,7 +214,7 @@ if __name__ == "__main__":
     save_model_info(save_json_path=save_json_path,
                     run_id=run_id,
                     artifact_path=artifact_uri,
-                    model_name=model_name)
+                    model_name="model")
     logger.info("Model Information saved")
     
     

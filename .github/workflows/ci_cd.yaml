@@ -20,14 +20,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.DAGSHUB_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.DAGSHUB_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
-
       - name: DVC Pull
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.DAGSHUB_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DAGSHUB_SECRET_ACCESS_KEY }}
         run: |
           dvc pull
 

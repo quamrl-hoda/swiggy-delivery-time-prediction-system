@@ -4,6 +4,7 @@ scikit-learn
 joblib
 mlflow
 dvc
+dvc-s3
 python-dotenv
 lightgbm
 dagshub

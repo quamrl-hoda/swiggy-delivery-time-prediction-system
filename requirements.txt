@@ -1,5 +1,8 @@
 pandas
 numpy
+seaborn
+matplotlib
+missingno
 scikit-learn
 joblib
 mlflow
@@ -7,5 +10,11 @@ dvc
 dvc-s3
 python-dotenv
 lightgbm
+xgboost
 dagshub
 pytest
+scipy
+fastapi
+uvicorn
+python-multipart
+plotly
